@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayur Narayana - Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-add-therapist {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-add-therapist:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .notification-badge {
+            position: relative;
+            cursor: pointer;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .notification-badge:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .badge-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-box h2 {
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .stat-card .number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        /* Filters */
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        /* Requests Table */
+        .requests-table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 2px solid #e1e8ed;
+        }
+
+        .table-header h2 {
+            font-size: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        th {
+            font-weight: 600;
+            color: #555;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-assigned {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-in_progress {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-completed {
+            background: #d1d3e2;
+            color: #383d41;
+        }
+
+        .action-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-right: 5px;
+        }
+
+        .btn-assign {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-assign:hover {
+            background: #5568d3;
+        }
+
+        .btn-view {
+            background: #48dbfb;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #0abde3;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .detail-row {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            color: #333;
+            font-size: 15px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        /* Notifications Dropdown */
+        .notifications-dropdown {
+            position: absolute;
+            top: 70px;
+            right: 100px;
+            background: white;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notifications-dropdown.active {
+            display: block;
+        }
+
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #e1e8ed;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .notification-item:hover {
+            background: #f8f9fa;
+        }
+
+        .notification-item.unread {
+            background: #e3f2fd;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .notification-message {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .notification-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-btn {
+            padding: 10px 25px;
+            border: none;
+            background: transparent;
+            color: #666;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #f0f0f0;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <h2>🏥 Admin Login</h2>
+            <div id="loginError"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required placeholder="admin@ayurnarayana.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden">
+        <div class="header">
+            <h1>🏥 Ayur Narayana - Admin Dashboard</h1>
+            <div class="user-info">
+                <button class="btn-add-therapist" onclick="openAddTherapistModal()">➕ Add Therapist</button>
+                <div class="notification-badge" onclick="toggleNotifications()">
+                    🔔
+                    <span class="badge-count" id="notificationCount">0</span>
+                </div>
+                <span id="userName">Admin</span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- Notifications Dropdown -->
+        <div id="notificationsDropdown" class="notifications-dropdown">
+            <div id="notificationsList"></div>
+        </div>
+
+        <div class="container">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Requests</h3>
+                    <div class="number" id="totalRequests">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Pending</h3>
+                    <div class="number" id="pendingRequests">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Assigned</h3>
+                    <div class="number" id="assignedRequests">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>In Progress</h3>
+                    <div class="number" id="inProgressRequests">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed</h3>
+                    <div class="number" id="completedRequests">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Therapists</h3>
+                    <div class="number" id="totalTherapists">0</div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('requests')">Patient Requests</button>
+                <button class="tab-btn" onclick="switchTab('therapists')">Therapists</button>
+            </div>
+
+            <!-- Requests Tab -->
+            <div id="requestsTab" class="tab-content active">
+                <!-- Filters -->
+                <div class="filters">
+                <div class="filter-group">
+                    <select id="statusFilter" onchange="filterRequests()">
+                        <option value="">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="assigned">Assigned</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Requests Table -->
+            <div class="requests-table">
+                <div class="table-header">
+                    <h2>Patient Requests</h2>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Phone</th>
+                            <th>Location</th>
+                            <th>Condition</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requestsTableBody">
+                        <tr>
+                            <td colspan="7" class="no-data">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Therapists Tab -->
+        <div id="therapistsTab" class="tab-content">
+            <div class="requests-table">
+                <div class="table-header">
+                    <h2>Therapist Team</h2>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Joined Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="therapistsTableBody">
+                        <tr>
+                            <td colspan="5" class="no-data">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    <!-- View/Assign Modal -->
+    <div id="requestModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Request Details</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalMessage"></div>
+            <div id="requestDetails"></div>
+            <div id="assignSection"></div>
+        </div>
+    </div>
+
+    <!-- Add Therapist Modal -->
+    <div id="addTherapistModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Therapist</h3>
+                <button class="close-btn" onclick="closeAddTherapistModal()">&times;</button>
+            </div>
+            <div id="addTherapistMessage"></div>
+            <form id="addTherapistForm">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="therapistName" required placeholder="Dr. Rajesh Kumar">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="therapistPhone" required placeholder="9876543210">
+                </div>
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" id="therapistEmail" required placeholder="rajesh@ayurnarayana.com">
+                </div>
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" id="therapistPassword" required placeholder="Minimum 6 characters">
+                </div>
+                <button type="submit" class="btn-primary">Create Therapist Account</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000/api';
+        let authToken = localStorage.getItem('admin_token');
+        let allRequests = [];
+        let therapists = [];
+
+        // Check if user is logged in
+        if (authToken) {
+            showDashboard();
+        }
+
+        // Login Form
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.user.role !== 'admin') {
+                        showError('loginError', 'Access denied. Admin only.');
+                        return;
+                    }
+                    authToken = data.access_token;
+                    localStorage.setItem('admin_token', authToken);
+                    localStorage.setItem('admin_user', JSON.stringify(data.user));
+                    showDashboard();
+                } else {
+                    showError('loginError', data.detail || 'Login failed');
+                }
+            } catch (error) {
+                showError('loginError', 'Connection error. Please try again.');
+            }
+        });
+
+        function showDashboard() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            
+            const user = JSON.parse(localStorage.getItem('admin_user'));
+            document.getElementById('userName').textContent = user.name;
+
+            loadData();
+            setInterval(loadNotifications, 30000); // Refresh notifications every 30s
+        }
+
+        async function loadData() {
+            await loadStats();
+            await loadRequests();
+            await loadTherapists();
+            await loadNotifications();
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_URL}/stats`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                
+                document.getElementById('totalRequests').textContent = data.stats.total_requests;
+                document.getElementById('pendingRequests').textContent = data.stats.pending_requests;
+                document.getElementById('assignedRequests').textContent = data.stats.assigned_requests;
+                document.getElementById('inProgressRequests').textContent = data.stats.in_progress_requests;
+                document.getElementById('completedRequests').textContent = data.stats.completed_requests;
+                document.getElementById('totalTherapists').textContent = data.stats.total_therapists;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function loadRequests() {
+            try {
+                const response = await fetch(`${API_URL}/requests`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                allRequests = data.requests;
+                displayRequests(allRequests);
+            } catch (error) {
+                console.error('Error loading requests:', error);
+            }
+        }
+
+        async function loadTherapists() {
+            try {
+                const response = await fetch(`${API_URL}/therapists`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                therapists = data.therapists;
+            } catch (error) {
+                console.error('Error loading therapists:', error);
+            }
+        }
+
+        async function loadTherapists() {
+            try {
+                const response = await fetch(`${API_URL}/therapists`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                therapists = data.therapists;
+                displayTherapists(therapists);
+            } catch (error) {
+                console.error('Error loading therapists:', error);
+            }
+        }
+
+        function displayTherapists(therapistsList) {
+            const tbody = document.getElementById('therapistsTableBody');
+            
+            if (therapistsList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="no-data">No therapists found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = therapistsList.map(therapist => `
+                <tr>
+                    <td>${therapist.name}</td>
+                    <td>${therapist.phone}</td>
+                    <td>${therapist.email}</td>
+                    <td>${new Date(therapist.created_at).toLocaleDateString()}</td>
+                    <td><span class="status-badge status-completed">Active</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            if (tabName === 'requests') {
+                document.getElementById('requestsTab').classList.add('active');
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            } else if (tabName === 'therapists') {
+                document.getElementById('therapistsTab').classList.add('active');
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                displayTherapists(therapists); // Refresh therapists list
+            }
+        }
+
+        async function loadNotifications() {
+            try {
+                const response = await fetch(`${API_URL}/notifications/unread/count`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                document.getElementById('notificationCount').textContent = data.count;
+
+                // Load full notifications
+                const notifResponse = await fetch(`${API_URL}/notifications`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const notifData = await notifResponse.json();
+                displayNotifications(notifData.notifications);
+            } catch (error) {
+                console.error('Error loading notifications:', error);
+            }
+        }
+
+        function displayNotifications(notifications) {
+            const list = document.getElementById('notificationsList');
+            if (notifications.length === 0) {
+                list.innerHTML = '<div class="notification-item">No notifications</div>';
+                return;
+            }
+
+            list.innerHTML = notifications.map(notif => `
+                <div class="notification-item ${!notif.is_read ? 'unread' : ''}" onclick="markAsRead('${notif.id}')">
+                    <div class="notification-title">${notif.title}</div>
+                    <div class="notification-message">${notif.message}</div>
+                    <div class="notification-time">${new Date(notif.created_at).toLocaleString()}</div>
+                </div>
+            `).join('');
+        }
+
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notificationsDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        async function markAsRead(notifId) {
+            try {
+                await fetch(`${API_URL}/notifications/${notifId}/read`, {
+                    method: 'PATCH',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                loadNotifications();
+            } catch (error) {
+                console.error('Error marking notification as read:', error);
+            }
+        }
+
+        function displayRequests(requests) {
+            const tbody = document.getElementById('requestsTableBody');
+            
+            if (requests.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="no-data">No requests found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = requests.map(req => `
+                <tr>
+                    <td>${req.patient_name}</td>
+                    <td>${req.phone}</td>
+                    <td>${req.location}</td>
+                    <td>${req.condition}</td>
+                    <td><span class="status-badge status-${req.status}">${req.status.replace('_', ' ')}</span></td>
+                    <td>${new Date(req.created_at).toLocaleDateString()}</td>
+                    <td>
+                        <button class="action-btn btn-view" onclick="viewRequest('${req.id}')">View</button>
+                        ${req.status === 'pending' ? `<button class="action-btn btn-assign" onclick="assignTherapist('${req.id}')">Assign</button>` : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterRequests() {
+            const status = document.getElementById('statusFilter').value;
+            
+            if (status === '') {
+                displayRequests(allRequests);
+            } else {
+                const filtered = allRequests.filter(req => req.status === status);
+                displayRequests(filtered);
+            }
+        }
+
+        async function viewRequest(requestId) {
+            try {
+                const response = await fetch(`${API_URL}/requests/${requestId}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                const request = data.request;
+
+                document.getElementById('requestDetails').innerHTML = `
+                    <div class="detail-row">
+                        <div class="detail-label">Patient Name</div>
+                        <div class="detail-value">${request.patient_name}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Phone</div>
+                        <div class="detail-value">${request.phone}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Email</div>
+                        <div class="detail-value">${request.email || 'N/A'}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">${request.location}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Condition</div>
+                        <div class="detail-value">${request.condition}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Preferred Time</div>
+                        <div class="detail-value">${request.preferred_time || 'N/A'}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Status</div>
+                        <div class="detail-value"><span class="status-badge status-${request.status}">${request.status.replace('_', ' ')}</span></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Notes</div>
+                        <div class="detail-value">${request.notes || 'No notes'}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Created At</div>
+                        <div class="detail-value">${new Date(request.created_at).toLocaleString()}</div>
+                    </div>
+                `;
+
+                document.getElementById('assignSection').innerHTML = '';
+                document.getElementById('requestModal').classList.add('active');
+            } catch (error) {
+                console.error('Error fetching request:', error);
+            }
+        }
+
+        async function assignTherapist(requestId) {
+            try {
+                const response = await fetch(`${API_URL}/requests/${requestId}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                const request = data.request;
+
+                document.getElementById('requestDetails').innerHTML = `
+                    <div class="detail-row">
+                        <div class="detail-label">Patient Name</div>
+                        <div class="detail-value">${request.patient_name}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Condition</div>
+                        <div class="detail-value">${request.condition}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">${request.location}</div>
+                    </div>
+                `;
+
+                document.getElementById('assignSection').innerHTML = `
+                    <div class="form-group">
+                        <label>Select Therapist</label>
+                        <select id="therapistSelect" class="form-control" style="width: 100%; padding: 10px; border: 2px solid #e1e8ed; border-radius: 8px;">
+                            <option value="">Choose therapist...</option>
+                            ${therapists.map(t => `<option value="${t.id}">${t.name} - ${t.phone}</option>`).join('')}
+                        </select>
+                    </div>
+                    <button class="btn-primary" onclick="confirmAssignment('${requestId}')">Assign Therapist</button>
+                `;
+
+                document.getElementById('requestModal').classList.add('active');
+            } catch (error) {
+                console.error('Error fetching request:', error);
+            }
+        }
+
+        async function confirmAssignment(requestId) {
+            const therapistId = document.getElementById('therapistSelect').value;
+            
+            if (!therapistId) {
+                showModalError('Please select a therapist');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/requests/${requestId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ therapist_id: therapistId })
+                });
+
+                if (response.ok) {
+                    showModalSuccess('Therapist assigned successfully!');
+                    setTimeout(() => {
+                        closeModal();
+                        loadData();
+                    }, 1500);
+                } else {
+                    showModalError('Failed to assign therapist');
+                }
+            } catch (error) {
+                showModalError('Connection error. Please try again.');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('requestModal').classList.remove('active');
+            document.getElementById('modalMessage').innerHTML = '';
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_token');
+            localStorage.removeItem('admin_user');
+            location.reload();
+        }
+
+        function showError(elementId, message) {
+            document.getElementById(elementId).innerHTML = `<div class="error-message">${message}</div>`;
+        }
+
+        function showModalError(message) {
+            document.getElementById('modalMessage').innerHTML = `<div class="error-message">${message}</div>`;
+        }
+
+        function showModalSuccess(message) {
+            document.getElementById('modalMessage').innerHTML = `<div class="success-message">${message}</div>`;
+        }
+
+        // Add Therapist Functions
+        function openAddTherapistModal() {
+            document.getElementById('addTherapistModal').classList.add('active');
+            document.getElementById('addTherapistForm').reset();
+            document.getElementById('addTherapistMessage').innerHTML = '';
+        }
+
+        function closeAddTherapistModal() {
+            document.getElementById('addTherapistModal').classList.remove('active');
+            document.getElementById('addTherapistMessage').innerHTML = '';
+        }
+
+        // Add Therapist Form
+        document.getElementById('addTherapistForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('therapistName').value;
+            const phone = document.getElementById('therapistPhone').value;
+            const email = document.getElementById('therapistEmail').value;
+            const password = document.getElementById('therapistPassword').value;
+
+            if (password.length < 6) {
+                showAddTherapistError('Password must be at least 6 characters');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        phone: phone,
+                        email: email,
+                        role: 'therapist',
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAddTherapistSuccess('Therapist account created successfully!');
+                    setTimeout(() => {
+                        closeAddTherapistModal();
+                        loadData(); // Reload therapists list
+                    }, 1500);
+                } else {
+                    showAddTherapistError(data.detail || 'Failed to create therapist account');
+                }
+            } catch (error) {
+                showAddTherapistError('Connection error. Please try again.');
+            }
+        });
+
+        function showAddTherapistError(message) {
+            document.getElementById('addTherapistMessage').innerHTML = `<div class="error-message">${message}</div>`;
+        }
+
+        function showAddTherapistSuccess(message) {
+            document.getElementById('addTherapistMessage').innerHTML = `<div class="success-message">${message}</div>`;
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.notification-badge') && !e.target.closest('.notifications-dropdown')) {
+                document.getElementById('notificationsDropdown').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
